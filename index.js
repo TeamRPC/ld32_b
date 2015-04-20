@@ -19,7 +19,8 @@ app.get('/assets/:asset',  urlencodedParser, stat.getAsset);
 // handle calls
 app.post('/call/initial', urlencodedParser, handler.validate, handler.initial);            // welcome
 app.post('/call/initial/input', urlencodedParser, handler.validate, handler.initialInput); // if entering save code
-app.post('/call/hero/create', urlencodedParser, handler.validate, handler.createHero);    // if not entering save code
+app.post('/call/hero/create', urlencodedParser, handler.validate, handler.createHero);     // if not entering save code
+app.post('/call/hero/record', urlencodedParser, handler.validate, handler.recordTraining); // if receiving recording from squire training
 
 // challenge creation
 app.post('/call/challenge/create', urlencodedParser, handler.createChallenge);

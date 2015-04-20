@@ -61,6 +61,7 @@ a deed is an attempt to win the challenge
     hero:$heroId:challenges          - list of challenges a player has created
     hero:$heroId:deeds               - list of deeds a player has done
     hero:$heroId:level               - the hero's level
+    hero:$heroId:call                - contains the callUUID. maps hero to active call
     hero:counter                     - counter for deriving hero Ids
     hero:call:$callId                - contains heroId. Maps active call UUID to hero. TTL 1h
     challenge:$challengeId:hero      - the creator of this challenge

@@ -28,3 +28,5 @@ node_modules
 
 
 config.json
+usersounds/*.wav
+!snd_test1234.wav
