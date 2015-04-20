@@ -9,9 +9,12 @@ var file = require('../lib/fileServer');
 
 
 var app = express();
-nconf.file(path.join('../', 'config.json'));
+nconf.file(path.join(__dirname, '../', 'config.json'));
+console.log('nconf check-- ', nconf.get('server_url'));
+//var assetBase = nconf.get('server_url')+'/assets';
+//console.log('asset base-- ', assetBase);
 
-
+//sdfsdfsdfs
 
 
 describe('file server', function() {
@@ -26,7 +29,9 @@ describe('file server', function() {
     
     describe('downloadRecording', function() {
         it('should download the file you tell it to', function(done) {
-            file.downloadRecording('https://')
+            file.downloadRecording(nconf.get('server_url')+'/assets/snd_test1234.wav', function(err, file) {
+               done(); 
+            });
         });
     });
 });
