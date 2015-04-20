@@ -1,4 +1,4 @@
-// var db = require('../lib/dbHandler');
+var db = require('../lib/dbHandler');
 
 // (function test() {
 //     console.log('lets test');
@@ -9,3 +9,10 @@
 //     });
 
 // })();
+
+(function test() {
+    
+    db.getSaveCode(function(err, code) {
+       console.log('CODE ', code); 
+    });
+});

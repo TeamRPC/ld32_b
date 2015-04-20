@@ -20,6 +20,17 @@ player and wizard. player calls a phone number, wizard is standing by
 * wizard
 ** 
 
+complete deeds to gain levels. lvl 2+ can create challenges.
+
+000 deeds - lvl1
+003 deeds - lvl2
+006 deeds - lvl3
+012 deeds - lvl4
+024 deeds - lvl5
+048 deeds - lvl6
+096 deeds - lvl7
+192 deeds - lvl8
+
 ## new game session logic
 
 
@@ -44,14 +55,18 @@ needs to be able to...
 there are challenges and deeds
 a deed is an attempt to win the challenge
 
-    hero:$heroId:challenges      - list of challenges a player has created
-    hero:$heroId:deeds           - list of deeds a player has done
-    challenge:$id:hero           - the creator of this challenge
-    challenge:$id:sounds         - list of urls to sound clips
-    challenge:availables         - list of available challenges
-    challenge:counter            - counter for challange ids
+    hero:$heroId                     - shows that hero exists. contains hero id
+    hero:$heroId:savecode            - contains savecode for this hero
+    hero:$heroId:challenges          - list of challenges a player has created
+    hero:$heroId:deeds               - list of deeds a player has done
+    hero:$heroId:level               - the hero's level
+    hero:counter                     - counter for deriving hero Ids
+    hero:call:$callId                - active calls from this hero. TTL 1h
+    challenge:$challengeId:hero      - the creator of this challenge
+    challenge:$challengeId:sounds    - list of urls to sound clips
+    challenge:availables             - list of available challenges
+    challenge:counter                - counter for deriving challange ids
     
-challenge sound list is open to the creator
 
 
 *when creating a challenge*
@@ -61,7 +76,19 @@ challenge sound list is open to the creator
   * `SET challenge:$id $id`
 * associate challenge id with session id
   * `LPUSH hero:$heroId:games $id`
-* (recordings take place)
+ 
+
+*when creating a hero*
+
+* create hero id
+  (one id is secret. it's the user's code to retrieve their hero)
+  (one id is not so secret)
+  * `$id = INCR hero:conter`
+  * `SET hero:$id $id`
+  
+
+*when adding recording to database*
+
 * associate sound clip url with challenge
   * `LPUSH challenge:$challengeId:sounds 'http://s3.example.aws.blah'`
   
@@ -69,4 +96,26 @@ challenge sound list is open to the creator
 *when doing a deed*
 
 * get challenge sound urls
-  * `LPUSH
+  * `LPUSH `
+* compute hero's level based on completed deeds
+  *  
+  
+
+## misc notes
+
+call body blob
+    
+    {
+       Direction: 'inbound',
+        From: '1xxxxxxxxxx',
+        CallerName: '+1xxxxxxxxxx',
+        BillRate: '0.00850',
+        To: '1xxxxxxxxxx',
+        CallUUID: '4721ade6-e6fe-11e4-bad6-c5ffead37627',
+        CallStatus: 'ringing',
+        Event: 'StartApp'
+    }
+
+## todo
+
+set expiry for heroes. something like a year. renew expiration every time the heroe logs in.

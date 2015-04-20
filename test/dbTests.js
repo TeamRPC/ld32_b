@@ -47,6 +47,16 @@ describe('redis database', function() {
                 });            
             });
         });
+    }),
+    
+    describe('getSaveCode()', function() {
+        it('should return a number between 1000 and 9999', function(done) {
+            db.getSaveCode(function(err, code) {
+                if (err) throw err;
+                code.should.be.within(1000, 9999);
+                done();
+            });
+        });
     });
     
     // describe('addChallengeSound', function() {

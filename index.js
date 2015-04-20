@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var jsonParser = bodyParser.json();
+//var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 var port = process.env.PORT || 5000;
 var nconf = require('nconf');
@@ -17,9 +17,13 @@ nconf.file(path.join(__dirname, 'config.json'));
 app.get('/assets/:asset',  urlencodedParser, stat.getAsset);
 
 // handle calls
-app.post('/call/initial', handler.initial);
-app.post('/call/initial/input', urlencodedParser, handler.initialInput);
-//app.post('/call/hero/create', urlencodedParser, handler.createChallenge);
+app.post('/call/initial', urlencodedParser, handler.validate, handler.initial);            // welcome
+app.post('/call/initial/input', urlencodedParser, handler.validate, handler.initialInput); // if entering save code
+app.post('/call/hero/create', urlencodedParser, handler.validate, handler.createHero);    // if not entering save code
+
+// challenge creation
+app.post('/call/challenge/create', urlencodedParser, handler.createChallenge);
+
 
 
 app.listen(port);
