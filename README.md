@@ -56,12 +56,13 @@ there are challenges and deeds
 a deed is an attempt to win the challenge
 
     hero:$heroId                     - shows that hero exists. contains hero id
+    hero:$heroId:training            - squire training level. used as req.ld32.recordProgress for /call/hero/create
     hero:$heroId:savecode            - contains savecode for this hero
     hero:$heroId:challenges          - list of challenges a player has created
     hero:$heroId:deeds               - list of deeds a player has done
     hero:$heroId:level               - the hero's level
     hero:counter                     - counter for deriving hero Ids
-    hero:call:$callId                - active calls from this hero. TTL 1h
+    hero:call:$callId                - contains heroId. Maps active call UUID to hero. TTL 1h
     challenge:$challengeId:hero      - the creator of this challenge
     challenge:$challengeId:sounds    - list of urls to sound clips
     challenge:availables             - list of available challenges
@@ -85,6 +86,8 @@ a deed is an attempt to win the challenge
   (one id is not so secret)
   * `$id = INCR hero:conter`
   * `SET hero:$id $id`
+* associate call uuid with hero
+  * `SET hero:$heroId:call $callId` 
   
 
 *when adding recording to database*
@@ -100,6 +103,7 @@ a deed is an attempt to win the challenge
 * compute hero's level based on completed deeds
   *  
   
+
 
 ## misc notes
 
@@ -118,4 +122,5 @@ call body blob
 
 ## todo
 
-set expiry for heroes. something like a year. renew expiration every time the heroe logs in.
+* remove call associations when hanging up
+* set expiry for heroes. something like a year. renew expiration every time the heroe logs in.

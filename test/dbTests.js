@@ -8,7 +8,129 @@ var redis = require('redis');
 var red = redis.createClient();
 
 
+var dummyCallId = 'efb34eb2-e730-11e4-a15e-c5ffead37627';
+
+
 describe('redis database', function() {
+    describe('hero 1', function() {
+        it('should exist', function(done) {
+            db.getHero(1, function(err, heroId) {
+                if (err) throw err;
+                if (!heroId) {
+                    db.createSquire(dummyCallId, function(err, heroId) {
+                       if (err) throw err;
+                       heroId.should.exist;
+                       done();
+                    });
+                }
+                heroId.should.exist;
+                done();
+            });
+        });
+    }),
+    
+    // describe('expirations', function() {
+
+    //     it('should expire', function(done) {
+    //         this.timeout(3000);
+    //         red.set(['test:expireme', 'value', 'EX', '1'], function(err, reply) {
+    //             if (err) throw err;
+    //             reply.should.be.String.with.exactly('OK');
+                
+    //             setTimeout(function() {
+    //                 red.get('test:expireme', function(err, reply) {
+    //                     if (err) throw err;
+    //                     should(reply).be.null;
+    //                     done();
+    //                 });
+    //             }, 2000);
+    //         });
+    //     });
+    // }),
+    
+    
+    // createChallenge: createChallenge,
+    // createSquire: createSquire,
+    // upgradeSquire: upgradeSquire,
+    // getSquireProgress: getSquireProgress,
+    // addChallengeSound: addChallengeSound,
+    // log: log,
+    // getSaveCode: getSaveCode,
+    // createChallenge: createChallenge,
+    // logCall: logCall
+
+    describe('logCall()', function() {
+        it('should return true', function() {
+            db.logCall(dummyCallId, 1, 'test', function(err, reply) {
+                reply.should.not.be.empty;
+            });
+        });
+    }),
+
+    describe('getHeroFromCall()', function() {
+        it('should return hero ID ', function(done) {
+            db.getHeroFromCall(dummyCallId, function(err, heroId) {
+                if (err) throw err;
+                heroId.should.be.greaterThan(0);
+                done();
+            });
+        });
+    }),
+    
+    describe('incrementSquireTraining()', function() {
+        it('should return a number between -1 and 10', function(done) {
+           db.incrementSquireTraining(1, function(err, step) {
+               if (err) throw err;
+               step.should.be.within(-1, 10);
+               done();
+           });
+        });
+    }),
+    
+    
+    describe('createChallenge()', function() {
+        it('should callback with a challenge id', function(done) {
+            db.createChallenge(function(err, id) {
+               if (err) throw err;
+               id.should.be.greaterThan(0);
+               done();
+            });
+        });
+    }),
+    
+    describe('createSquire()', function() {
+       it('should callback with an id ', function(done) {
+           db.createSquire(dummyCallId, function(err, id) {
+              if (err) throw err;
+              id.should.be.greaterThan(0);
+              done();
+           });
+       });
+    }),
+    
+    describe('getHero()', function() {
+        it('should callback with an id', function(done) {
+            db.getHero(1, function(err, id) {
+                if (err) throw err;
+                id.should.not.be.empty;
+                id.should.equal('1');
+                done();
+            });
+        });
+    }),
+    
+    describe('progressSquire()', function() {
+       it('should callback with a number between -1 and 10', function(done) {
+           db.progressSquire(function(err, progress) {
+               if (err) throw err;
+               progress.should.be.within(-1, 10);
+               done();
+           });
+       });
+    }),
+    
+    
+    
     describe('createChallenge()', function() {
         // it('should callback with a guid when no parameters are sent', function(done) {
         //     db.createGame(function(err, id) {
