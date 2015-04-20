@@ -10,7 +10,7 @@ var file = require('../lib/fileServer');
 
 var app = express();
 nconf.file(path.join(__dirname, '../', 'config.json'));
-console.log('nconf check-- ', nconf.get('server_url'));
+//console.log('nconf check-- ', nconf.get('server_url'));
 //var assetBase = nconf.get('server_url')+'/assets';
 //console.log('asset base-- ', assetBase);
 

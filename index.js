@@ -8,6 +8,7 @@ var nconf = require('nconf');
 var path = require('path');
 var handler = require('./lib/callHandler.js');
 var stat = require('./lib/fileServer.js');
+//var dl = require('/lib/downloader.js');
 
 nconf.file(path.join(__dirname, 'config.json'));
 

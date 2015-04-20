@@ -1,4 +1,5 @@
 var db = require('../lib/dbHandler');
+var file = require('../lib/fileServer');
 
 // (function test() {
 //     console.log('lets test');
@@ -12,7 +13,8 @@ var db = require('../lib/dbHandler');
 
 (function test() {
     
-    db.getSaveCode(function(err, code) {
-       console.log('CODE ', code); 
+    file.downloadRecording('https://s3-us-west-2.amazonaws.com/grimtech.ld32/1_4_died.wav', function(err, file) {
+        console.log('fart');
     });
-});
+
+})();
