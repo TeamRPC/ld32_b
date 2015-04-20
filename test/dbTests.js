@@ -78,12 +78,17 @@ describe('redis database', function() {
     }),
     
     describe('incrementSquireTraining()', function() {
-        it('should return a number between -1 and 10', function(done) {
-           db.incrementSquireTraining(1, function(err, step) {
-               if (err) throw err;
-               step.should.be.within(-1, 10);
-               done();
-           });
+        it('should call back with number one higher than previous', function(done) {
+            red.get('hero:1:training', function(err, first) {
+                if (err) throw err;
+                first = Number(first);
+                db.incrementSquireTraining(1, function(err, second) {
+                    if (err) throw err;
+                    second = Number(second);
+                    second.should.equal(first+1);
+                    done();
+                });
+            });
         });
     }),
     
@@ -121,8 +126,9 @@ describe('redis database', function() {
     
     describe('progressSquire()', function() {
        it('should callback with a number between -1 and 10', function(done) {
-           db.progressSquire(function(err, progress) {
+           db.progressSquire(dummyCallId, function(err, progress) {
                if (err) throw err;
+               console.log('SDIFJOSDJF', progress)
                progress.should.be.within(-1, 10);
                done();
            });
