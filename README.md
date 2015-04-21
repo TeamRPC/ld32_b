@@ -62,14 +62,19 @@ a deed is an attempt to win the challenge
     hero:$heroId:deeds               - list of deeds a player has done
     hero:$heroId:level               - the hero's level
     hero:$heroId:call                - contains the callUUID. maps hero to active call
-    hero:$heroId:profiles            - contains list of filenames of soundclips that the user generated during training
+    hero:$heroId:profile:perms       - contains list of filenames (on local disk) of soundclips that the user generated during training //@todo
+    hero:$heroId:profile:temps       - contains list of filenames (on plivo s3) of soundclips that the user generated
+    hero:code:$savecode              - mapping of savecode to hero. contains heroID
     hero:counter                     - counter for deriving hero Ids
     hero:call:$callId                - contains heroId. Maps active call UUID to hero. TTL 1h
     challenge:$challengeId:hero      - the creator of this challenge
     challenge:$challengeId:sounds    - list of urls to sound clips
-    challenge:availables             - list of available challenges
+    challenge:$challengeId:perms     - list of urls to sound clips (on local disk) //@todo
+    challenge:availables             - set of available challenges
     challenge:counter                - counter for deriving challange ids
-    
+    challenge:call:$callId           - contains challengeId. maps active call to challenge
+    challenge:$challengeId:call      - contains callId. maps challenge to active call
+
 
 
 *when creating a challenge*
@@ -407,3 +412,5 @@ request blob
 
 * remove call associations when hanging up
 * set expiry for heroes. something like a year. renew expiration every time the heroe logs in.
+* script to persist user recordings in `hero:$heroId:profile:temps` and add to `hero:$heroId:profile:perms`
+* lobby loop `hero:$heroId:lobbyLoop` which limits lobby redirect loop to 3

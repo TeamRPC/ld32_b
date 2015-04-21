@@ -187,6 +187,47 @@ describe('redis database', function() {
         });
     });
     
+    describe('getHeroDeeds()', function() {
+        it('should callback with a list', function(done) {
+            db.getHeroDeeds(1, function(err, deeds) {
+                if (err) throw err;
+                console.dir(deeds);
+                deeds.should.be.an.Array;
+                done();
+            });    
+        });
+    });
+    
+    describe('getHeroLevel()', function() {
+        it('should callback with a level', function(done) {
+            db.getHeroLevel(1, function(err, level) {
+                if (err) throw err;
+                level.should.be.greaterThan(0);
+                done();
+            });
+        });
+    });
+    
+    describe('makeChallengeAvailable()', function() {
+        it('should callback with success', function(done) {
+            db.makeChallengeAvailable('faaa', function(err, ok) {
+                if (err) throw err;
+                should(ok).be.exactly(1);
+                done();
+            });
+        });
+    });
+    
+    describe('makeChallengeNotAvailable()', function() {
+        it('should callback with true', function(done) {
+            db.makeChallengeNotAvailable('faaa', function(err, ok) {
+                if (err) throw err;
+                should(ok).be.exactly(1);
+                done();
+            });
+        });
+    })
+    
     // describe('addChallengeSound', function() {
     //     it('should return true', function(done) {
     //         db.addChallengeSound(1, nconf.get('server_url')+'/assets/snd_test123.wav', function(err, res) {
